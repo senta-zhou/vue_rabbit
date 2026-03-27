@@ -1,5 +1,5 @@
 <script setup></script>
-
-<template><el-button type="primary">Primary</el-button></template>
+<!-- 一级路由出口 -->
+<template><router-view></router-view></template>
 
 <style scoped></style>
