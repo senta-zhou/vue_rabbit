@@ -9,7 +9,6 @@ export const useCategoryStore = defineStore("category", () => {
   // action 导航列表的方法
   const getCategory = async () => {
     const res = await getCategoryAPI();
-    console.log(res);
     categoryList.value = res.result;
   };
 

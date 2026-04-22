@@ -7,7 +7,6 @@ const bannerList = ref([]);
 // 发送网络请求，异步操作
 const getBanner = async () => {
   const res = await getBannerAPI();
-  console.log(res);
   // 将请求到的数据存入list数组里
   bannerList.value = res.result;
 };
