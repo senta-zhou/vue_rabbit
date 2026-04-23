@@ -4,16 +4,25 @@ import { getCategoryAPI } from "@/apis/category";
 import { ref, onMounted } from "vue";
 import { getBannerAPI } from "@/apis/home";
 import GoodsItem from "../Home/components/GoodsItem.vue";
+// 引入路由守卫
+import { onBeforeRouteUpdate } from "vue-router";
 // 在组件内获取路由参数
 import { useRoute } from "vue-router";
 
 const categoryData = ref({});
 const route = useRoute();
-const getCategory = async () => {
-  const res = await getCategoryAPI(route.params.id);
+// id=route.params.id是给了个默认值
+const getCategory = async (id = route.params.id) => {
+  const res = await getCategoryAPI(id);
   categoryData.value = res.result;
 };
 onMounted(() => getCategory());
+
+// 在路由变化后再重新请求新的数据
+onBeforeRouteUpdate((to) => {
+  getCategory(to.params.id);
+});
+
 // 从接口拿到的数据，变为响应式数组
 const bannerList = ref([]);
 // 发送网络请求，异步操作
