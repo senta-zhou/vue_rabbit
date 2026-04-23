@@ -1,9 +1,15 @@
 import appInstance from "@/utils/http";
 
 // 获取banner
-export function getBannerAPI() {
+export function getBannerAPI(params = {}) {
+  // 默认为1商品为2
+  // 结构赋值，给默认值为1
+  const { distributionSite = "1" } = params;
   return appInstance({
     url: "/home/banner",
+    params: {
+      distributionSite,
+    },
   });
 }
 

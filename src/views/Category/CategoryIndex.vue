@@ -2,6 +2,8 @@
 // 调用接口获取数据
 import { getCategoryAPI } from "@/apis/category";
 import { ref, onMounted } from "vue";
+import { getBannerAPI } from "@/apis/home";
+
 // 在组件内获取路由参数
 import { useRoute } from "vue-router";
 
@@ -12,6 +14,18 @@ const getCategory = async () => {
   categoryData.value = res.result;
 };
 onMounted(() => getCategory());
+// 从接口拿到的数据，变为响应式数组
+const bannerList = ref([]);
+// 发送网络请求，异步操作
+const getBanner = async () => {
+  const res = await getBannerAPI({ distributionSite: "2" });
+  // 将请求到的数据存入list数组里
+  bannerList.value = res.result;
+};
+// 在挂载的时候再调用请求，避免时机不对出错
+onMounted(() => {
+  getBanner();
+});
 </script>
 
 <template>
@@ -25,6 +39,13 @@ onMounted(() => getCategory());
         </el-breadcrumb>
       </div>
     </div>
+  </div>
+  <div class="home-banner">
+    <el-carousel height="500px">
+      <el-carousel-item v-for="item in bannerList" :key="item.id">
+        <img :src="item.imgUrl" alt="" />
+      </el-carousel-item>
+    </el-carousel>
   </div>
 </template>
 
@@ -103,6 +124,15 @@ onMounted(() => getCategory());
 
   .bread-container {
     padding: 25px 0;
+  }
+}
+.home-banner {
+  width: 1240px;
+  height: 500px;
+  margin: 0 auto;
+  img {
+    width: 100%;
+    height: 500px;
   }
 }
 </style>
