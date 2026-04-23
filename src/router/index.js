@@ -14,7 +14,7 @@ const router = createRouter({
         // 默认第一个字组件显示home
         { path: "", component: Home },
         {
-          path: "category",
+          path: "category/:id",
           component: Category,
         },
       ],
