@@ -1,7 +1,8 @@
 <script setup>
-import { getCategoryFilterAPI } from "@/apis/category";
+import { getCategoryFilterAPI, getSubCategoryAPI } from "@/apis/category";
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
+import GoodsItem from "../Home/components/GoodsItem.vue";
 // 获取面包屑导航栏数据
 const route = useRoute();
 const categoryData = ref({});
@@ -10,6 +11,19 @@ const getCategoryData = async () => {
   categoryData.value = res.result;
 };
 onMounted(() => getCategoryData());
+
+const goodsList = ref([]);
+const requestData = ref({
+  categoryId: route.params.id,
+  page: 1,
+  pageSize: 20,
+  sortField: "publishTime",
+});
+const getGoods = async () => {
+  const res = await getSubCategoryAPI(requestData.value);
+  goodsList.value = res.result.items;
+};
+onMounted(() => getGoods());
 </script>
 
 <template>
@@ -32,6 +46,10 @@ onMounted(() => getCategoryData());
       </el-tabs>
       <div class="body">
         <!-- 商品列表-->
+        <!-- :goods="goods" 父->子组件传参，
+          左边 goods 这是子组件 GoodsItem 规定要接收的参数名
+          右边 goods 就是循环里的每一条商品数据-->
+        <GoodsItem v-for="goods in goodsList" :goods="goods" :key="goods.id" />
       </div>
     </div>
   </div>
