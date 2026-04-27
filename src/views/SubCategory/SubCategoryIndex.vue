@@ -24,6 +24,25 @@ const getGoods = async () => {
   goodsList.value = res.result.items;
 };
 onMounted(() => getGoods());
+
+// 列表栏切换
+const tabChange = () => {
+  // 再重新渲染筛选后的商品，将页面重新加载一页，进行优化后，再继续请求数据
+  requestData.value.page = 1;
+  getGoods();
+};
+
+// 无限加载
+const disabled = ref(false);
+const load = async () => {
+  requestData.value.page++;
+  const res = await getSubCategoryAPI(requestData.value);
+  goodsList.value = [...goodsList.value, ...res.result.items];
+  // 加载完毕 停止监听
+  if (res.result.items.length === 0) {
+    disabled.value = true;
+  }
+};
 </script>
 
 <template>
@@ -39,12 +58,12 @@ onMounted(() => getGoods());
       </el-breadcrumb>
     </div>
     <div class="sub-container">
-      <el-tabs>
+      <el-tabs v-model="requestData.sortField" @tab-change="tabChange">
         <el-tab-pane label="最新商品" name="publishTime"></el-tab-pane>
         <el-tab-pane label="最高人气" name="orderNum"></el-tab-pane>
         <el-tab-pane label="评论最多" name="evaluateNum"></el-tab-pane>
       </el-tabs>
-      <div class="body">
+      <div class="body" v-infinite-scroll="load" :infinite-scroll-disabled="disabled">
         <!-- 商品列表-->
         <!-- :goods="goods" 父->子组件传参，
           左边 goods 这是子组件 GoodsItem 规定要接收的参数名
