@@ -1,5 +1,7 @@
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
+import { useMouseInElement } from "@vueuse/core";
+
 // 图片列表
 const imageList = [
   "https://yanxuan-item.nosdn.127.net/d917c92e663c5ed0bb577c7ded73e4ec.png",
@@ -13,6 +15,29 @@ const activeIndex = ref(0);
 const enterHandler = (i) => {
   activeIndex.value = i;
 };
+
+// 放大镜效果
+// 获取鼠标位置
+const left = ref(0);
+const top = ref(0);
+const target = ref(null);
+const { elementX, elementY, isOutside } = useMouseInElement(target);
+watch([elementX, elementY], () => {
+  // 有效范围内控制
+  // 横向
+  if (elementX.value > 100 && elementX.value < 300) {
+    left.value = elementX.value - 100;
+  }
+  // 纵向
+  if (elementY.value > 100 && elementY.value < 300) {
+    top.value = elementY.value - 100;
+  }
+  // 边界区域
+  if (elementX.value > 300) elementX.value = 200;
+  if (elementY.value > 300) elementY.value = 200;
+  if (elementX.value < 100) elementX.value = 0;
+  if (elementY.value < 100) elementY.value = 0;
+});
 </script>
 
 <template>
@@ -21,7 +46,7 @@ const enterHandler = (i) => {
     <div class="middle" ref="target">
       <img :src="imageList[activeIndex]" alt="" />
       <!-- 蒙层小滑块 -->
-      <div class="layer" :style="{ left: `0px`, top: `0px` }"></div>
+      <div class="layer" :style="{ left: `${left}px`, top: `${top}px` }"></div>
     </div>
     <!-- 小图列表 -->
     <ul class="small">
