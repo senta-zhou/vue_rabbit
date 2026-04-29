@@ -114,8 +114,10 @@ onMounted(() => getGoods());
             </div>
             <!-- 24热榜+专题推荐 -->
             <div class="goods-aside">
-              <detail-hot />
-              <detail-hot />
+              <!-- 24热榜 -->
+              <detail-hot :hotType="1" />
+              <!-- 周热榜 -->
+              <detail-hot :hotType="2" />
             </div>
           </div>
         </div>
