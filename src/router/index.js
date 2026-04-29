@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 import Layout from "@/views/Layout/LayoutIndex.vue";
-import Login from "@/views/Login/index.vue";
+import Login from "@/views/Login/LoginIndex.vue";
 import Home from "@/views/Home/HomeIndex.vue";
 import Category from "@/views/Category/CategoryIndex.vue";
 import SubCategory from "@/views/SubCategory/SubCategoryIndex.vue";
