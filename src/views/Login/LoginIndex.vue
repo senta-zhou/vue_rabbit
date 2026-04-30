@@ -1,14 +1,15 @@
 <script setup>
 import { ref } from "vue";
-import { loginAPI } from "@/apis/user";
 import { ElMessage } from "element-plus";
 import "element-plus/theme-chalk/el-message.css";
 import { useRouter } from "vue-router";
+import { useUserStore } from "@/stores/user";
 
+const userStore = useUserStore();
 // 1.准备表单对象
 const form = ref({
-  account: "",
-  password: "",
+  account: "13012345681",
+  password: "123456",
   agree: true,
 });
 
@@ -43,14 +44,9 @@ const doLogin = () => {
     // 当所有表单验证通过，valid才为true
     console.log(valid);
     if (valid) {
-      try {
-        const res = await loginAPI({ account, password });
-        console.log("登录成功", res);
-        ElMessage({ type: "success", message: "登录成功" });
-        router.replace({ path: "/" });
-      } catch (err) {
-        console.error("登录失败", err.response); // 这里可以看到服务器返回的错误详情
-      }
+      await userStore.getUserInfo({ account, password });
+      ElMessage({ type: "success", message: "登录成功" });
+      router.replace({ path: "/" });
     }
   });
 };
