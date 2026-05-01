@@ -4,7 +4,7 @@ import axios from "axios";
 import { ElMessage } from "element-plus";
 import "element-plus/theme-chalk/el-message.css";
 import { useUserStore } from "@/stores/user";
-
+import router from "@/router";
 const appInstance = axios.create({
   baseURL: "http://pcapi-xiaotuxian-front-devtest.itheima.net",
   timeout: 5000,
@@ -16,7 +16,7 @@ appInstance.interceptors.request.use(
     // 1.从pinia中获取token数据
     const userStore = useUserStore();
     // 2.按照后端要求拼接token数据
-    const token = userStore.userInfo.token;
+    const token = userStore.userInfo?.token;
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -29,8 +29,17 @@ appInstance.interceptors.request.use(
 appInstance.interceptors.response.use(
   (res) => res.data,
   (e) => {
+    const userStore = useUserStore();
     // 统一错误提示
-    ElMessage({ type: "warning", message: e.response.data.message });
+    ElMessage({ type: "warning", message: e.response?.data.message });
+
+    // token 401失效处理
+    // 1.清除本地用户数据
+    // 2.跳转到登录页面
+    if (e.response.status === 401) {
+      userStore.clearUserInfo();
+      router.push("/login");
+    }
     return Promise.reject(e);
   },
 );
