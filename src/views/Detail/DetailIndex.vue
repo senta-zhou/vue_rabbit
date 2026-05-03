@@ -123,7 +123,7 @@ const addCart = () => {
               <el-input-number v-model="count" :min="1" :max="10" @change="countChange" />
               <!-- 按钮组件 -->
               <div>
-                <el-button size="large" class="btn" @click="addCart"> 加入购物车 </el-button>
+                <el-button size="large" class="btn" @click="addCart()"> 加入购物车 </el-button>
               </div>
             </div>
           </div>
