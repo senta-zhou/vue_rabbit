@@ -1,14 +1,23 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
-import { useUserStore } from "./user";
-import { insertCartAPI, findNewCartListAPI } from "@/apis/cart";
+import { useUserStore } from "./userStore";
+import { insertCartAPI, findNewCartListAPI, delCartAPI } from "@/apis/cart";
 export const useCartStore = defineStore(
   "cart",
   () => {
     const userStore = useUserStore();
     const isLogin = computed(() => userStore.userInfo.token);
+
     // 1.定义state -- cartList
     const cartList = ref([]);
+    // 抽象获取最新购物车的action
+    const updateCartList = async () => {
+      // 获取最新的购物车列表
+      const res = await findNewCartListAPI();
+      // 替换本地的购物车列表
+      cartList.value = res.result;
+    };
+
     // 2.定义action -- addCart
     const addCart = async (goods) => {
       const { skuId, count } = goods;
@@ -17,10 +26,7 @@ export const useCartStore = defineStore(
         // 登录后的购物逻辑
         // 加入购物车列表
         await insertCartAPI({ skuId, count });
-        // 获取最新的购物车列表
-        const res = await findNewCartListAPI();
-        // 替换本地的购物车列表
-        cartList.value = res.result;
+        updateCartList();
       } else {
         // 未登录的本地购物逻辑
         // 添加购物车操作
@@ -35,9 +41,15 @@ export const useCartStore = defineStore(
         }
       }
     };
-    const delCart = (skuId) => {
-      const index = cartList.value.findIndex((item) => skuId === item.skuId);
-      cartList.value.splice(index, 1);
+    const delCart = async (skuId) => {
+      if (isLogin.value) {
+        // 调用接口实现删除功能
+        await delCartAPI([skuId]);
+        updateCartList();
+      } else {
+        const index = cartList.value.findIndex((item) => skuId === item.skuId);
+        cartList.value.splice(index, 1);
+      }
     };
 
     // 单选功能
