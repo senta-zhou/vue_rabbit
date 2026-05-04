@@ -100,6 +100,7 @@ export const useCartStore = defineStore(
       singleCheck,
       allCheck,
       clearCart,
+      updateCartList,
     };
   },
   {
