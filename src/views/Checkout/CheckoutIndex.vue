@@ -18,7 +18,7 @@ const getCheckInfo = async () => {
 onMounted(() => getCheckInfo());
 
 // 控制弹窗打开
-const shouDialog = ref(false);
+const showDialog = ref(false);
 
 // 切换地址
 const activeAddress = ref({});
@@ -29,7 +29,7 @@ const switchAddress = (item) => {
 // 确定按钮
 const confirm = () => {
   curAddress.value = activeAddress.value;
-  shouDialog.value = false;
+  showDialog.value = false;
   activeAddress.value = {};
 };
 
@@ -81,7 +81,7 @@ const createOrder = async () => {
               </ul>
             </div>
             <div class="action">
-              <el-button size="large" @click="shouDialog = true">切换地址</el-button>
+              <el-button size="large" @click="showDialog = true">切换地址</el-button>
               <el-button size="large" @click="addFlag = true">添加地址</el-button>
             </div>
           </div>
@@ -162,7 +162,7 @@ const createOrder = async () => {
     </div>
   </div>
   <!-- 切换地址 -->
-  <el-dialog v-model="shouDialog" title="切换收货地址" width="30%" center>
+  <el-dialog v-model="showDialog" title="切换收货地址" width="30%" center>
     <div class="addressWrapper">
       <div
         class="text item"
