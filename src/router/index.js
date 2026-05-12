@@ -50,7 +50,11 @@ const router = createRouter({
           path: "member",
           component: Member,
           children: [
-            { path: "user", component: UserInfo },
+            {
+              // 将这个路由作为默认路由，则path为空就行
+              path: "",
+              component: UserInfo,
+            },
             {
               path: "order",
               component: UserOrder,
