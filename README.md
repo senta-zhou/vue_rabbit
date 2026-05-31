@@ -1,44 +1,53 @@
-# vue_rabbit
+# 小兔鲜生鲜电商项目 - Vue3 移动端实战
 
-This template should help get you started developing with Vue 3 in Vite.
+## 📖 项目介绍
+本项目是基于 **Vue3 + Vite** 开发的移动端生鲜电商项目，跟随黑马程序员前端实战教程完成。
+项目涵盖电商核心业务流程，适合前端新手练习 Vue3 全家桶、工程化开发、接口联调、移动端适配等技能。
 
-## Recommended IDE Setup
+## 🛠️ 技术栈
+- 核心框架：Vue 3
+- 构建工具：Vite
+- 状态管理：Pinia
+- 路由管理：Vue Router
+- UI 组件库：Vant 4
+- 网络请求：Axios
+- 样式方案：Less / CSS
+- 规范：移动端适配、组件化开发
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## ✨ 实现功能
+- 首页轮播图、推荐商品、分类导航
+- 商品分类列表、商品详情页
+- 商品搜索功能
+- 购物车添加、删除、数量修改、总价计算
+- 收货地址管理（增删改查）
+- 订单结算、支付流程
+- 个人中心模块
+- 全局状态管理 & 接口统一封装
 
-## Recommended Browser Setup
-
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
+## 🚀 项目运行
+```bash
+# 安装依赖
 npm install
-```
 
-### Compile and Hot-Reload for Development
-
-```sh
+# 启动开发服务
 npm run dev
-```
 
-### Compile and Minify for Production
-
-```sh
+# 生产打包
 npm run build
-```
 
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+src/
+├── api/          # 接口请求封装
+├── components/   # 公共组件
+├── pages/        # 页面文件
+├── router/       # 路由配置
+├── stores/       # Pinia 状态管理
+├── utils/        # 工具函数
+└── App.vue       # 根组件
+📌 项目亮点
+采用 Vue3 组合式 API 开发，代码更简洁易维护
+完整电商业务流程，贴近真实企业项目
+封装通用请求工具，统一处理接口逻辑
+移动端样式适配，兼容主流手机设备
+组件化拆分，提高代码复用性
+📝 备注
+本项目为学习练习项目，接口与素材来源于课程配套资源，仅用于前端技术学习与实战训练。
